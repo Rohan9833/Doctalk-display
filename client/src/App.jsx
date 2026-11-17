@@ -35,7 +35,7 @@ function Brand({ small = false }) {
     >
       <img
         className={small ? "w-[120px]" : "w-[143px] sm:w-[164px]"}
-        src={asset + "doctalk-logo.webp"}
+        src={asset + "doctalk_by_digilateral.jpg"}
         alt="DocTalk logo"
       />
     </a>
@@ -90,27 +90,53 @@ function HeroCarousel({ openVideo }) {
     },
   ];
   const [index, setIndex] = useState(0);
+  const [transitionEnabled, setTransitionEnabled] = useState(true);
   const [paused, setPaused] = useState(false);
   const startX = useRef(null);
   const videoRefs = useRef([]);
 
+  // useEffect(() => {
+  //   videoRefs.current.forEach((video, videoIndex) => {
+  //     if (!video) return;
+
+  //     if (videoIndex === index) {
+  //       video.currentTime = 0;
+  //       video.play().catch(() => {});
+  //     } else {
+  //       video.pause();
+  //       video.currentTime = 0;
+  //     }
+  //   });
+  // }, [index]);
   useEffect(() => {
     videoRefs.current.forEach((video, videoIndex) => {
       if (!video) return;
 
       if (videoIndex === index) {
         video.currentTime = 0;
-        video.play().catch(() => {});
+
+        const playVideo = () => {
+          video.play().catch((error) => {
+            console.error("Video playback failed:", error);
+          });
+        };
+
+        if (video.readyState >= 2) {
+          playVideo();
+        } else {
+          video.addEventListener("canplay", playVideo, { once: true });
+        }
       } else {
         video.pause();
         video.currentTime = 0;
       }
     });
   }, [index]);
-
   useEffect(() => {
     if (paused) return;
-    const t = setInterval(() => setIndex((i) => (i + 1) % slides.length), 3500);
+    const t = setInterval(() => {
+      setIndex((i) => i + 1);
+    }, 3500);
     return () => clearInterval(t);
   }, [paused, slides.length]);
 
@@ -132,31 +158,82 @@ function HeroCarousel({ openVideo }) {
         startX.current = null;
       }}
     >
-      <div className="relative overflow-hidden rounded-[23px]">
+      {/* <div className="relative overflow-hidden rounded-[23px]">
         <div
           className="flex transition-transform duration-700 ease-in-out"
           style={{ transform: `translateX(-${index * 100}%)` }}
         >
           {slides.map((s, slideIndex) => (
-            // <img
-            //   key={s.src}
-            //   className="aspect-[1.52] w-full shrink-0 object-cover"
-            //   src={s.src}
-            //   alt={s.title}
-            // />
-            <video
-              key={s.src}
-              ref={(video) => {
-                videoRefs.current[slideIndex] = video;
-              }}
-              className="aspect-[1.52] w-full shrink-0 object-fill"
-              src={s.src}
-              muted
-              playsInline
-              preload="metadata"
-            />
+            <div key={s.src} className="relative w-full shrink-0">
+              <video
+                ref={(video) => {
+                  videoRefs.current[slideIndex] = video;
+                }}
+                className="aspect-[1.52] w-full object-fill"
+                src={s.src}
+                muted
+                playsInline
+                preload="metadata"
+              />
+
+              <h3 className="absolute bottom-3 left-3 rounded-md bg-black/50 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">
+                AI-Generated
+              </h3>
+            </div>
           ))}
         </div>
+      </div> */}
+      <div className="relative overflow-hidden rounded-[23px]">
+        <div
+          className={`flex ${
+            transitionEnabled
+              ? "transition-transform duration-700 ease-in-out"
+              : ""
+          }`}
+          style={{ transform: `translateX(-${index * 100}%)` }}
+          onTransitionEnd={() => {
+            if (index === slides.length) {
+              setTransitionEnabled(false);
+              setIndex(0);
+
+              requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                  setTransitionEnabled(true);
+                });
+              });
+            }
+          }}
+        >
+          {/* {[...slides, slides[0]].map((s, slideIndex) => (
+      <div key={slideIndex} className="w-full shrink-0">
+        <video
+          className="aspect-[1.52] w-full object-fill"
+          src={s.src}
+          muted
+          playsInline
+          preload="metadata"
+        />
+      </div>
+    ))} */}
+          {[...slides, slides[0]].map((s, slideIndex) => (
+            <div key={slideIndex} className="w-full shrink-0">
+              <video
+                ref={(video) => {
+                  videoRefs.current[slideIndex] = video;
+                }}
+                className="aspect-[1.52] w-full object-fill"
+                src={s.src}
+                muted
+                playsInline
+                preload="auto"
+              />
+            </div>
+          ))}
+        </div>
+
+        <h3 className="absolute bottom-3 left-3 z-10 rounded-md bg-black/50 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">
+          AI-Generated
+        </h3>
       </div>
     </div>
   );
@@ -277,22 +354,58 @@ function Hero({ openVideo }) {
       <div className="container-site relative z-10 grid items-center gap-9 lg:grid-cols-[.95fr_1.05fr] lg:gap-14">
         <div>
           {/* <div className="eyebrow mb-5">For Pharma Brand Teams</div> */}
-          <h1 className="text-[20px] font-black leading-[1.03] tracking-[-.065em] sm:text-[66px] lg:text-[70px] mt-[-20px] mb-[10px]">
-            Real Doctors.
+          <h1 className="text-[20px] font-black leading-[1.03] tracking-[-.065em] sm:text-[66px] lg:text-[70px] ml-[10px] mt-[-20px] mb-[10px]">
+            Realistic AI, Engaging Videos
             <br />
-            <span className="text-gold">Engaging Videos.</span>
+            <span className="text-[#E38228]">
+              Real Doctors, Verified Consent
+            </span>
           </h1>
           {/* <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted">
             Turn a doctor's photo into a lifelike educational video. No shoot.
             Simple. Scalable.
           </p> */}
           <HeroCarousel openVideo={openVideo} />
+          {/* Product logos */}
+          <div className="mt-5 flex items-center justify-center gap-8 sm:gap-12">
+            {[
+              {
+                src: "/images/doctalk_show.jpg",
+                alt: "DocTalk Show",
+              },
+              {
+                src: "/images/doctalk_quiz.jpg",
+                alt: "DocTalk Quiz",
+              },
+              {
+                src: "/images/doctalk-logo.webp",
+                alt: "DocTalk",
+              },
+            ].map((logo, logoIndex) => (
+              <div
+                key={logo.src}
+                className={`flex h-12 w-24 items-center justify-center transition-all duration-500 sm:h-14 sm:w-28 ${
+                  index % slides.length === logoIndex
+                    ? "scale-110 opacity-100"
+                    : "scale-90 opacity-50"
+                }`}
+              >
+                <img
+                  src={logo.src}
+                  alt={logo.alt}
+                  className={`max-h-full max-w-full object-contain ${
+                    logoIndex === 2 ? "scale-125" : ""
+                  }`}
+                />
+              </div>
+            ))}
+          </div>
 
           <div className="mt-3 flex justify-evenly gap-2">
             <ScrollCTA />
             <a
               href="#products"
-              className="inline-flex items-center gap-2 rounded-full border border-[#CAD3E2] text-sm px-5 py-2.5 font-semibold text-navy transition hover:border-gold"
+              className="inline-flex bg-[#E8A414] items-center gap-2 rounded-full border border-[#CAD3E2] text-sm px-5 py-2.5 font-semibold text-white transition hover:border-gold"
             >
               Explore Formats
             </a>
@@ -314,12 +427,12 @@ function Hero({ openVideo }) {
             <div
               key={title}
               className={
-                "flex items-center gap-3 px-5 py-5 sm:px-6 " +
+                "flex items-center gap-3 px-5 py-4 sm:px-6 " +
                 (i ? "border-t border-white/15 sm:border-t-0 lg:border-l" : "")
               }
             >
               <div className="feature-ico">
-                <Icon size={25} />
+                <Icon size={22} />
               </div>
               <div>
                 <h3 className="font-extrabold">{title}</h3>

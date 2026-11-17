@@ -5,7 +5,7 @@ export const products = [
     id: "doctalk",
     number: "01",
     name: "DocTalk",
-    logo:"/images/doctalk_by_digilateral.jpg",
+    logo:"/images/doctalk-logo.webp",
     tagline: "One doctor. One powerful message.",
     description:
       "A doctor speaks to patients on a health topic in a short, lifelike educational video.",

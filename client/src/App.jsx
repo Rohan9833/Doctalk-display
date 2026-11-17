@@ -144,7 +144,8 @@ function HeroCarousel({ openVideo }) {
     setIndex((i) => (i + dir + slides.length) % slides.length);
 
   return (
-    <div
+    <>
+      <div
       className="relative overflow-hidden rounded-[28px] border-[5px] border-gold bg-[#E9EAF0] p-[5px] shadow-soft"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
@@ -235,7 +236,32 @@ function HeroCarousel({ openVideo }) {
           AI-Generated
         </h3>
       </div>
-    </div>
+      {/* Product logos: active logo follows the current carousel slide */}
+      <div className="mt-5 flex items-center justify-center gap-8 sm:gap-12">
+        {[
+          { src: "/images/doctalk_show.jpg", alt: "DocTalk Show" },
+          { src: "/images/doctalk_quiz.jpg", alt: "DocTalk Quiz" },
+          { src: "/images/doctalk-logo.webp", alt: "DocTalk" },
+        ].map((logo, logoIndex) => (
+          <div
+            key={logo.src}
+            className={`flex h-12 w-24 items-center justify-center transition-all duration-500 sm:h-14 sm:w-28 ${
+              index % slides.length === logoIndex
+                ? "scale-110 opacity-100"
+                : "scale-90 opacity-50"
+            }`}
+          >
+            <img
+              src={logo.src}
+              alt={logo.alt}
+              className={`max-h-full max-w-full object-contain ${
+                logoIndex === 2 ? "scale-125" : ""
+              }`}
+            />
+          </div>
+        ))}
+      </div>
+    </>
   );
 }
 
@@ -366,41 +392,6 @@ function Hero({ openVideo }) {
             Simple. Scalable.
           </p> */}
           <HeroCarousel openVideo={openVideo} />
-          {/* Product logos */}
-          <div className="mt-5 flex items-center justify-center gap-8 sm:gap-12">
-            {[
-              {
-                src: "/images/doctalk_show.jpg",
-                alt: "DocTalk Show",
-              },
-              {
-                src: "/images/doctalk_quiz.jpg",
-                alt: "DocTalk Quiz",
-              },
-              {
-                src: "/images/doctalk-logo.webp",
-                alt: "DocTalk",
-              },
-            ].map((logo, logoIndex) => (
-              <div
-                key={logo.src}
-                className={`flex h-12 w-24 items-center justify-center transition-all duration-500 sm:h-14 sm:w-28 ${
-                  index % slides.length === logoIndex
-                    ? "scale-110 opacity-100"
-                    : "scale-90 opacity-50"
-                }`}
-              >
-                <img
-                  src={logo.src}
-                  alt={logo.alt}
-                  className={`max-h-full max-w-full object-contain ${
-                    logoIndex === 2 ? "scale-125" : ""
-                  }`}
-                />
-              </div>
-            ))}
-          </div>
-
           <div className="mt-3 flex justify-evenly gap-2">
             <ScrollCTA />
             <a

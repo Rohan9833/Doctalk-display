@@ -82,13 +82,12 @@ function HeroCarousel({ openVideo }) {
       title: "DocTalk Quiz example",
       product: products[1],
     },
-    
+
     {
       src: asset + "video_01.mp4",
       title: "DocTalk example",
       product: products[0],
     },
-    
   ];
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -131,14 +130,14 @@ function HeroCarousel({ openVideo }) {
             //   alt={s.title}
             // />
             <video
-                  className="aspect-[1.52] w-full shrink-0 object-fill"
-                  src={s.src}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                />
+              className="aspect-[1.52] w-full shrink-0 object-fill"
+              src={s.src}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+            />
           ))}
         </div>
       </div>
@@ -341,7 +340,7 @@ function ProductSection({ openVideo }) {
                 <span className="absolute left-3 top-3 z-10 rounded-br-[22px] rounded-tl-[16px] bg-navy px-4 py-2 text-2xl font-black text-gold">
                   {p.number}
                 </span>
-                <video
+                {/* <video
                   className="aspect-[1.7] w-full rounded-[20px] object-cover"
                   src={p.video}
                   autoPlay
@@ -349,12 +348,25 @@ function ProductSection({ openVideo }) {
                   loop
                   playsInline
                   preload="metadata"
+                /> */}
+                <img
+                  // key={s.src}
+                  className="aspect-[1.7] w-full rounded-[20px] object-cover"
+                  src={p.image}
+                  // alt={s.title}
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-[23px] font-black tracking-tight">
-                  {p.name}
-                </h3>
+                <div className="flex items-center gap-3">
+                  {/* <h3 className="text-[23px] font-black tracking-tight">
+                    {p.name}
+                  </h3> */}
+                  <img
+                    src={p.logo}
+                    alt={`${p.name} logo`}
+                    className="h-8 w-8 object-contain"
+                  />
+                </div>
                 <p className="mt-1 text-sm font-bold text-amber">{p.tagline}</p>
                 <p className="mt-4 min-h-[79px] text-[15px] font-semibold leading-relaxed">
                   {p.description}
@@ -803,9 +815,9 @@ function Footer() {
               <Brand small />
             </div>
             <p className="mt-5 max-w-xs text-sm leading-7 text-white/70">
-              We create engaging, doctor-led animated videos that help healthcare
-              brands educate patients, bring campaigns to life and make every
-              health message easier to understand.
+              We create engaging, doctor-led animated videos that help
+              healthcare brands educate patients, bring campaigns to life and
+              make every health message easier to understand.
             </p>
             <p className="mt-4 text-xs font-semibold tracking-wide text-gold">
               DOC TALK · DOC TALK QUIZ · DOC TALK SHOW
@@ -814,23 +826,49 @@ function Footer() {
 
           <div>
             <h3 className="text-base font-extrabold">Quick Links</h3>
-            <nav aria-label="Footer quick links" className="mt-5 flex flex-col items-start gap-3 text-sm text-white/75">
-              <a className="transition hover:text-gold" href="#top">Overview</a>
-              <a className="transition hover:text-gold" href="#products">Our Formats</a>
-              <a className="transition hover:text-gold" href="#how-it-works">How It Works</a>
-              <a className="transition hover:text-gold" href="#consent">Doctor Consent</a>
-              <a className="transition hover:text-gold" href="#demo">Request a Demo</a>
+            <nav
+              aria-label="Footer quick links"
+              className="mt-5 flex flex-col items-start gap-3 text-sm text-white/75"
+            >
+              <a className="transition hover:text-gold" href="#top">
+                Overview
+              </a>
+              <a className="transition hover:text-gold" href="#products">
+                Our Formats
+              </a>
+              <a className="transition hover:text-gold" href="#how-it-works">
+                How It Works
+              </a>
+              <a className="transition hover:text-gold" href="#consent">
+                Doctor Consent
+              </a>
+              <a className="transition hover:text-gold" href="#demo">
+                Request a Demo
+              </a>
             </nav>
           </div>
 
           <div>
             <h3 className="text-base font-extrabold">Video Solutions</h3>
-            <nav aria-label="Footer video solutions" className="mt-5 flex flex-col items-start gap-3 text-sm text-white/75">
-              <a className="transition hover:text-gold" href="#doctalk">Doctor-led Health Videos</a>
-              <a className="transition hover:text-gold" href="#quiz">Interactive Health Quizzes</a>
-              <a className="transition hover:text-gold" href="#show">Doctor Conversations & Shows</a>
-              <a className="transition hover:text-gold" href="#products">Patient Education Content</a>
-              <a className="transition hover:text-gold" href="#products">Health Awareness Campaigns</a>
+            <nav
+              aria-label="Footer video solutions"
+              className="mt-5 flex flex-col items-start gap-3 text-sm text-white/75"
+            >
+              <a className="transition hover:text-gold" href="#doctalk">
+                Doctor-led Health Videos
+              </a>
+              <a className="transition hover:text-gold" href="#quiz">
+                Interactive Health Quizzes
+              </a>
+              <a className="transition hover:text-gold" href="#show">
+                Doctor Conversations & Shows
+              </a>
+              <a className="transition hover:text-gold" href="#products">
+                Patient Education Content
+              </a>
+              <a className="transition hover:text-gold" href="#products">
+                Health Awareness Campaigns
+              </a>
             </nav>
           </div>
 

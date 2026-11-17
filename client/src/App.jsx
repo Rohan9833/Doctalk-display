@@ -92,6 +92,21 @@ function HeroCarousel({ openVideo }) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const startX = useRef(null);
+  const videoRefs = useRef([]);
+
+  useEffect(() => {
+    videoRefs.current.forEach((video, videoIndex) => {
+      if (!video) return;
+
+      if (videoIndex === index) {
+        video.currentTime = 0;
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+        video.currentTime = 0;
+      }
+    });
+  }, [index]);
 
   useEffect(() => {
     if (paused) return;
@@ -122,7 +137,7 @@ function HeroCarousel({ openVideo }) {
           className="flex transition-transform duration-700 ease-in-out"
           style={{ transform: `translateX(-${index * 100}%)` }}
         >
-          {slides.map((s) => (
+          {slides.map((s, slideIndex) => (
             // <img
             //   key={s.src}
             //   className="aspect-[1.52] w-full shrink-0 object-cover"
@@ -130,9 +145,12 @@ function HeroCarousel({ openVideo }) {
             //   alt={s.title}
             // />
             <video
+              key={s.src}
+              ref={(video) => {
+                videoRefs.current[slideIndex] = video;
+              }}
               className="aspect-[1.52] w-full shrink-0 object-fill"
               src={s.src}
-              autoPlay
               muted
               loop
               playsInline

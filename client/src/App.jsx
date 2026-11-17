@@ -936,99 +936,42 @@ function PreviewModal({ product, onClose }) {
 }
 function Footer() {
   const year = new Date().getFullYear();
+
   return (
-    <footer className="bg-deep py-12 text-white sm:py-14">
+    <footer className="bg-[#0B1B3D] py-8 text-white">
       <div className="container-site">
-        <div className="grid gap-10 border-b border-white/15 pb-10 md:grid-cols-2 lg:grid-cols-[1.15fr_.8fr_1.1fr_1fr] lg:gap-8">
-          <div>
-            {/* <div className="inline-flex rounded-xl bg-white p-2">
-              <Brand small />
-            </div> */}
-            <p className="mt-5 max-w-xs text-sm leading-7 text-white/70">
-              We create engaging, doctor-led animated videos that help
-              healthcare brands educate patients, bring campaigns to life and
-              make every health message easier to understand.
-            </p>
-            <p className="mt-4 text-xs font-semibold tracking-wide text-gold">
-              DOC TALK · DOC TALK QUIZ · DOC TALK SHOW
-            </p>
+        <div className="flex flex-col items-center justify-between gap-6 text-center md:flex-row md:text-left">
+          <div className="text-sm font-medium text-white/75">
+            DocTalk · DocTalk Quiz · DocTalk Show
           </div>
 
-          {/* <div>
-            <h3 className="text-base font-extrabold">Quick Links</h3>
-            <nav
-              aria-label="Footer quick links"
-              className="mt-5 flex flex-col items-start gap-3 text-sm text-white/75"
-            >
-              <a className="transition hover:text-gold" href="#top">
-                Overview
-              </a>
-              <a className="transition hover:text-gold" href="#products">
-                Our Formats
-              </a>
-              <a className="transition hover:text-gold" href="#how-it-works">
-                How It Works
-              </a>
-              <a className="transition hover:text-gold" href="#consent">
-                Doctor Consent
-              </a>
-              <a className="transition hover:text-gold" href="#demo">
-                Request a Demo
-              </a>
-            </nav>
-          </div> */}
-
-          {/* <div>
-            <h3 className="text-base font-extrabold">Video Solutions</h3>
-            <nav
-              aria-label="Footer video solutions"
-              className="mt-5 flex flex-col items-start gap-3 text-sm text-white/75"
-            >
-              <a className="transition hover:text-gold" href="#doctalk">
-                Doctor-led Health Videos
-              </a>
-              <a className="transition hover:text-gold" href="#quiz">
-                Interactive Health Quizzes
-              </a>
-              <a className="transition hover:text-gold" href="#show">
-                Doctor Conversations & Shows
-              </a>
-              <a className="transition hover:text-gold" href="#products">
-                Patient Education Content
-              </a>
-              <a className="transition hover:text-gold" href="#products">
-                Health Awareness Campaigns
-              </a>
-            </nav>
-          </div> */}
-
-          {/* <div>
-            <h3 className="text-base font-extrabold">Let’s Create Together</h3>
-            <p className="mt-5 text-sm leading-7 text-white/70">
-              Planning a doctor-led video, patient education initiative or
-              healthcare campaign? Tell us what you have in mind.
-            </p>
-            <a
-              href="#demo"
-              className="mt-6 inline-flex w-full items-center justify-center gap-3 rounded-xl bg-[#FF682C] px-5 py-4 text-sm font-extrabold text-white shadow-lg shadow-black/20 transition hover:-translate-y-0.5 hover:bg-[#F4571C] sm:w-auto"
-            >
-              Let’s Discuss Your Project
-              <ArrowRight size={18} />
+          <nav
+            aria-label="Footer navigation"
+            className="flex flex-wrap items-center justify-center gap-x-7 gap-y-3 text-sm font-semibold"
+          >
+            <a className="transition hover:text-[#E8A414]" href="#products">
+              Products
             </a>
-            <p className="mt-4 text-xs leading-5 text-white/50">
-              A digiLATERAL offering
-            </p>
-          </div> */}
-        </div>
+            <a
+              className="transition hover:text-[#E8A414]"
+              href="#how-it-works"
+            >
+              How it Works
+            </a>
+            <a className="transition hover:text-[#E8A414]" href="#demo">
+              Request Demo
+            </a>
+          </nav>
 
-        <div className="flex flex-col gap-4 pt-6 text-xs text-white/55 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {year} DocTalk. All rights reserved.</p>
-          <p>Made for meaningful healthcare communication.</p>
+          <div className="text-sm text-white/60">
+            © {year} DocTalk. A digiLATERAL offering.
+          </div>
         </div>
       </div>
     </footer>
   );
 }
+
 export default function App() {
   const [preview, setPreview] = useState(null);
   return (

@@ -152,7 +152,6 @@ function HeroCarousel({ openVideo }) {
               className="aspect-[1.52] w-full shrink-0 object-fill"
               src={s.src}
               muted
-              loop
               playsInline
               preload="metadata"
             />

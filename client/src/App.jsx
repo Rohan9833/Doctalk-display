@@ -93,12 +93,31 @@ function HeroCarousel({ openVideo }) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const startX = useRef(null);
+  const videoRefs = useRef([]);
 
   useEffect(() => {
     if (paused) return;
     const t = setInterval(() => setIndex((i) => (i + 1) % slides.length), 3500);
     return () => clearInterval(t);
   }, [paused, slides.length]);
+
+  // Play the active slide from the beginning; pause and rewind every hidden slide.
+  useEffect(() => {
+    videoRefs.current.forEach((video, videoIndex) => {
+      if (!video) return;
+
+      if (videoIndex === index) {
+        video.currentTime = 0;
+        const playback = video.play();
+        if (playback && typeof playback.catch === "function") {
+          playback.catch(() => {});
+        }
+      } else {
+        video.pause();
+        video.currentTime = 0;
+      }
+    });
+  }, [index]);
 
   const go = (dir) =>
     setIndex((i) => (i + dir + slides.length) % slides.length);
@@ -123,7 +142,7 @@ function HeroCarousel({ openVideo }) {
           className="flex transition-transform duration-700 ease-in-out"
           style={{ transform: `translateX(-${index * 100}%)` }}
         >
-          {slides.map((s) => (
+          {slides.map((s, slideIndex) => (
             // <img
             //   key={s.src}
             //   className="aspect-[1.52] w-full shrink-0 object-cover"
@@ -131,14 +150,17 @@ function HeroCarousel({ openVideo }) {
             //   alt={s.title}
             // />
             <video
-                  className="aspect-[1.52] w-full shrink-0 object-fill"
-                  src={s.src}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                />
+              key={s.src}
+              ref={(element) => {
+                videoRefs.current[slideIndex] = element;
+              }}
+              className="aspect-[1.52] w-full shrink-0 object-fill"
+              src={s.src}
+              muted
+              loop
+              playsInline
+              preload="metadata"
+            />
           ))}
         </div>
       </div>

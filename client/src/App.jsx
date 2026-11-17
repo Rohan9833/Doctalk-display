@@ -144,8 +144,7 @@ function HeroCarousel({ openVideo }) {
     setIndex((i) => (i + dir + slides.length) % slides.length);
 
   return (
-    <>
-      <div
+    <div
       className="relative overflow-hidden rounded-[28px] border-[5px] border-gold bg-[#E9EAF0] p-[5px] shadow-soft"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
@@ -236,12 +235,20 @@ function HeroCarousel({ openVideo }) {
           AI-Generated
         </h3>
       </div>
-      {/* Product logos: active logo follows the current carousel slide */}
-      <div className="mt-5 flex items-center justify-center gap-8 sm:gap-12">
+      {/* <div className="mt-5 flex items-center justify-center gap-8 sm:gap-12">
         {[
-          { src: "/images/doctalk_show.jpg", alt: "DocTalk Show" },
-          { src: "/images/doctalk_quiz.jpg", alt: "DocTalk Quiz" },
-          { src: "/images/doctalk-logo.webp", alt: "DocTalk" },
+          {
+            src: "/images/doctalk_show.jpg",
+            alt: "DocTalk Show",
+          },
+          {
+            src: "/images/doctalk_quiz.jpg",
+            alt: "DocTalk Quiz",
+          },
+          {
+            src: "/images/doctalk-logo.webp",
+            alt: "DocTalk",
+          },
         ].map((logo, logoIndex) => (
           <div
             key={logo.src}
@@ -260,8 +267,8 @@ function HeroCarousel({ openVideo }) {
             />
           </div>
         ))}
-      </div>
-    </>
+      </div> */}
+    </div>
   );
 }
 
@@ -392,6 +399,8 @@ function Hero({ openVideo }) {
             Simple. Scalable.
           </p> */}
           <HeroCarousel openVideo={openVideo} />
+          {/* Product logos */}
+
           <div className="mt-3 flex justify-evenly gap-2">
             <ScrollCTA />
             <a
@@ -479,14 +488,14 @@ function ProductSection({ openVideo }) {
               </div>
               <div className="p-6">
                 <div className="flex items-center gap-3">
-                  {/* <h3 className="text-[23px] font-black tracking-tight">
+                  <h3 className="text-[23px] font-black tracking-tight">
                     {p.name}
-                  </h3> */}
-                  <img
+                  </h3>
+                  {/* <img
                     src={p.logo}
                     alt={`${p.name} logo`}
                     className="h-8 w-8 object-contain"
-                  />
+                  /> */}
                 </div>
                 <p className="mt-1 text-sm font-bold text-amber">{p.tagline}</p>
                 <p className="mt-4 min-h-[79px] text-[15px] font-semibold leading-relaxed">
@@ -591,13 +600,13 @@ function Workflow() {
         <Heading eyebrow="How It Works">
           From Photo <span className="text-gold">to Video</span>
         </Heading>
-        <div className="mt-9 grid gap-8 lg:grid-cols-[1.05fr_.95fr]">
+        <div className="mt-7 grid gap-4 lg:grid-cols-[1.05fr_.95fr]">
           <div className="surface flex items-center justify-around gap-3 p-5 sm:p-7">
             <div className="min-w-0 flex-1">
               <img
-                src={asset + "photo-start.webp"}
+                src={asset + "doctor.png"}
                 alt="Sample doctor photo"
-                className="h-40 w-full rounded-[18px] border-2 border-gold object-cover object-top sm:h-52"
+                className="h-[7rem] w-[84%] rounded-[18px] border-2 border-gold object-cover object-top sm:h-52"
               />
               <p className="mx-auto mt-2 w-fit rounded-full bg-navy px-4 py-1 text-center text-xs font-bold text-white">
                 1 Photo
@@ -606,9 +615,9 @@ function Workflow() {
             <ArrowRight size={28} className="shrink-0 text-gold" />
             <div className="min-w-0 flex-[1.4]">
               <img
-                src={asset + "video-result.webp"}
+                src={asset + "doctor_video.png"}
                 alt="AI-assisted educational video example"
-                className="h-40 w-full rounded-[18px] border-2 border-gold object-cover sm:h-52"
+                className="h-[6.9rem] w-[96%] rounded-[18px] border-2 border-gold object-cover sm:h-52"
               />
               <p className="mx-auto mt-2 w-fit rounded-full bg-gold px-4 py-1 text-center text-xs font-bold text-navy">
                 Lifelike Video
@@ -623,7 +632,7 @@ function Workflow() {
             ].map(([n, v]) => (
               <div key={n} className="flex items-start gap-4">
                 <span className="number">{n}</span>
-                <p className="pt-1.5 text-base font-bold leading-relaxed">
+                <p className=" text-base font-bold leading-[1.3]">
                   {v}
                 </p>
               </div>
@@ -932,9 +941,9 @@ function Footer() {
       <div className="container-site">
         <div className="grid gap-10 border-b border-white/15 pb-10 md:grid-cols-2 lg:grid-cols-[1.15fr_.8fr_1.1fr_1fr] lg:gap-8">
           <div>
-            <div className="inline-flex rounded-xl bg-white p-2">
+            {/* <div className="inline-flex rounded-xl bg-white p-2">
               <Brand small />
-            </div>
+            </div> */}
             <p className="mt-5 max-w-xs text-sm leading-7 text-white/70">
               We create engaging, doctor-led animated videos that help
               healthcare brands educate patients, bring campaigns to life and
@@ -945,7 +954,7 @@ function Footer() {
             </p>
           </div>
 
-          <div>
+          {/* <div>
             <h3 className="text-base font-extrabold">Quick Links</h3>
             <nav
               aria-label="Footer quick links"
@@ -967,9 +976,9 @@ function Footer() {
                 Request a Demo
               </a>
             </nav>
-          </div>
+          </div> */}
 
-          <div>
+          {/* <div>
             <h3 className="text-base font-extrabold">Video Solutions</h3>
             <nav
               aria-label="Footer video solutions"
@@ -991,9 +1000,9 @@ function Footer() {
                 Health Awareness Campaigns
               </a>
             </nav>
-          </div>
+          </div> */}
 
-          <div>
+          {/* <div>
             <h3 className="text-base font-extrabold">Let’s Create Together</h3>
             <p className="mt-5 text-sm leading-7 text-white/70">
               Planning a doctor-led video, patient education initiative or
@@ -1009,7 +1018,7 @@ function Footer() {
             <p className="mt-4 text-xs leading-5 text-white/50">
               A digiLATERAL offering
             </p>
-          </div>
+          </div> */}
         </div>
 
         <div className="flex flex-col gap-4 pt-6 text-xs text-white/55 sm:flex-row sm:items-center sm:justify-between">

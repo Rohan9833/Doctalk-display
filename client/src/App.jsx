@@ -602,7 +602,7 @@ function Workflow() {
               <img
                 src={asset + "doctor.png"}
                 alt="Sample doctor photo"
-                className="h-[7rem] w-[84%] rounded-[18px] border-2 border-gold object-cover object-top sm:h-52"
+                className="mx-auto block h-[7rem] w-[84%] rounded-[18px] border-2 border-gold object-cover object-top sm:h-52"
               />
               <p className="mx-auto mt-2 w-fit rounded-full bg-navy px-4 py-1 text-center text-xs font-bold text-white">
                 1 Photo
@@ -613,7 +613,7 @@ function Workflow() {
               <img
                 src={asset + "doctor_video.png"}
                 alt="AI-assisted educational video example"
-                className="h-[6.9rem] w-[96%] rounded-[18px] border-2 border-gold object-cover sm:h-52"
+                className="mx-auto block h-[6.9rem] w-[96%] rounded-[18px] border-2 border-gold object-cover sm:h-52"
               />
               <p className="mx-auto mt-2 w-fit rounded-full bg-gold px-4 py-1 text-center text-xs font-bold text-navy">
                 Lifelike Video

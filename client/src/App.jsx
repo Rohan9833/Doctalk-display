@@ -684,7 +684,7 @@ function Consent() {
             {[
               "Your consent has been confirmed.",
               "You will now receive activity updates and reports.",
-              "Thank you for being a part of the DocTalk Quiz activity.",
+              "Thank you for being a part of the DocTalk activity.",
             ].map((message) => (
               <div key={message} className="flex items-start gap-3">
                 <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#218F54] text-white">
@@ -697,12 +697,12 @@ function Consent() {
             ))}
           </div>
 
-          <a
+          {/* <a
             href="#top"
             className="mt-7 flex min-h-[58px] items-center justify-center rounded-xl border-2 border-[#8BAEF8] bg-white px-5 text-lg font-bold text-[#1755C7] transition hover:bg-[#F4F7FF] focus:outline-none focus:ring-4 focus:ring-[#8BAEF8]/25"
           >
             Go to Dashboard
-          </a>
+          </a> */}
         </div>
       </div>
     </section>

@@ -482,10 +482,9 @@ function ProductSection({ openVideo }) {
                   preload="metadata"
                 /> */}
                 <img
-                  // key={s.src}
                   className="aspect-[1.7] w-full rounded-[20px] object-cover"
                   src={p.image}
-                  // alt={s.title}
+                  alt={p.name}
                 />
               </div>
               <div className="p-6">

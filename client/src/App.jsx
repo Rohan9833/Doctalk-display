@@ -946,6 +946,33 @@ function PreviewModal({ product, onClose }) {
     </div>
   );
 }
+function Disclaimer() {
+  return (
+    <section className="container-site py-6 sm:py-8">
+      <div className="flex gap-4 rounded-[24px] bg-[#102653] px-5 py-5 text-white sm:gap-5 sm:px-7 sm:py-6">
+        <ShieldCheck
+          size={34}
+          strokeWidth={2}
+          className="mt-0.5 shrink-0 text-[#E8A414] sm:h-9 sm:w-9"
+          aria-hidden="true"
+        />
+        <div>
+          <h2 className="text-sm font-extrabold tracking-[0.14em] text-white">
+            DISCLAIMER
+          </h2>
+          <p className="mt-1 text-sm leading-relaxed text-white/80 sm:text-base">
+            The doctors, names, clinics and people shown here are AI-generated
+            for illustration. Any figures shown are sample data. The health
+            content in the samples is not medically verified and is not medical
+            advice. Please consult a qualified doctor for any health concern.
+            This website is an advertisement for digiLATERAL’s DocTalk services.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Footer() {
   const year = new Date().getFullYear();
 
@@ -1005,6 +1032,7 @@ export default function App() {
         <Consent />
         <LeadForm />
       </main>
+      <Disclaimer />
       <Footer />
       <PreviewModal product={preview} onClose={() => setPreview(null)} />
     </>

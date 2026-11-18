@@ -235,39 +235,7 @@ function HeroCarousel({ openVideo }) {
           AI-Generated
         </h3>
       </div>
-      {/* <div className="mt-5 flex items-center justify-center gap-8 sm:gap-12">
-        {[
-          {
-            src: "/images/doctalk_show.jpg",
-            alt: "DocTalk Show",
-          },
-          {
-            src: "/images/doctalk_quiz.jpg",
-            alt: "DocTalk Quiz",
-          },
-          {
-            src: "/images/doctalk-logo.webp",
-            alt: "DocTalk",
-          },
-        ].map((logo, logoIndex) => (
-          <div
-            key={logo.src}
-            className={`flex h-12 w-24 items-center justify-center transition-all duration-500 sm:h-14 sm:w-28 ${
-              index % slides.length === logoIndex
-                ? "scale-110 opacity-100"
-                : "scale-90 opacity-50"
-            }`}
-          >
-            <img
-              src={logo.src}
-              alt={logo.alt}
-              className={`max-h-full max-w-full object-contain ${
-                logoIndex === 2 ? "scale-125" : ""
-              }`}
-            />
-          </div>
-        ))}
-      </div> */}
+    
     </div>
   );
 }
@@ -297,11 +265,7 @@ function VideoCard({ src, title, onClick, hero = false }) {
         <span className="play-btn">
           <Play size={23} fill="currentColor" />
         </span>
-        {/* {hero && (
-          <span className="absolute bottom-4 left-3 rounded-full bg-navy/90 px-3 py-1.5 text-[11px] font-bold text-white sm:left-5 sm:text-sm">
-            Demo video · AI-generated doctors
-          </span>
-        )} */}
+        
       </div>
     </button>
   );

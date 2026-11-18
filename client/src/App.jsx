@@ -661,30 +661,46 @@ function Consent() {
             your organization's policies and applicable requirements.
           </p> */}
         </div>
-        <div className="rounded-[27px] border-4 border-gold bg-white p-7 text-navy sm:p-9">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <h3 className="text-xl font-black">Doctor consent</h3>
-            <span className="rounded-full bg-[#E7F5EB] px-3 py-1 text-xs font-bold text-[#176C38]">
-              SAMPLE RECORD
-            </span>
+        <div className="rounded-[27px] border border-[#D8EEDF] bg-white p-6 text-navy shadow-[0_12px_35px_rgba(15,23,42,0.08)] sm:p-8">
+          <div className="flex flex-col items-center text-center">
+            <div className="relative mb-5 grid h-24 w-24 place-items-center rounded-full bg-[#159B59] text-white shadow-[0_8px_22px_rgba(21,155,89,0.22)] sm:h-28 sm:w-28">
+              <Check size={58} strokeWidth={4} />
+              <span className="absolute -right-3 top-1 h-2 w-2 rounded-full bg-[#F3B43F]" />
+              <span className="absolute -left-4 top-8 h-2 w-2 rounded-full bg-[#36B978]" />
+              <span className="absolute -right-2 bottom-2 h-2 w-2 rounded-full bg-[#F3B43F]" />
+              <span className="absolute -left-2 -bottom-1 h-1.5 w-1.5 rounded-full bg-[#36B978]" />
+            </div>
+            <h3 className="text-2xl font-black leading-tight text-[#10275B] sm:text-[27px]">
+              Consent Confirmed Successfully!
+            </h3>
+            <p className="mt-3 text-lg font-semibold text-[#18366F]">
+              Thank you, Dr. Ananya Sharma.
+            </p>
           </div>
-          <div className="mt-6 space-y-4">
+
+          <div className="mt-6 space-y-4 rounded-xl border border-[#D5EEDF] bg-[#F2FAF5] p-5 sm:p-6">
             {[
-              "Consent to use the supplied image for an AI video",
-              "Review of intended patient-education use",
-              "Recorded consent date and time",
-            ].map((t) => (
-              <div className="flex items-start gap-3" key={t}>
-                <span className="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-[#218349] text-white">
-                  <Check size={16} />
+              "Your consent has been confirmed.",
+              "You will now receive activity updates and reports.",
+              "Thank you for being a part of the DocTalk Quiz activity.",
+            ].map((message) => (
+              <div key={message} className="flex items-start gap-3">
+                <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#218F54] text-white">
+                  <Check size={15} strokeWidth={3} />
                 </span>
-                <p className="text-sm sm:text-base">{t}</p>
+                <p className="text-sm font-semibold leading-relaxed text-[#26344D] sm:text-base">
+                  {message}
+                </p>
               </div>
             ))}
           </div>
-          {/* <div className="mt-6 border-t border-dashed border-[#D8DEEA] pt-4 text-xs text-muted">
-            Illustrative interface · not an actual doctor consent record
-          </div> */}
+
+          <a
+            href="#top"
+            className="mt-7 flex min-h-[58px] items-center justify-center rounded-xl border-2 border-[#8BAEF8] bg-white px-5 text-lg font-bold text-[#1755C7] transition hover:bg-[#F4F7FF] focus:outline-none focus:ring-4 focus:ring-[#8BAEF8]/25"
+          >
+            Go to Dashboard
+          </a>
         </div>
       </div>
     </section>

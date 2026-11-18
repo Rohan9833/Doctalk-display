@@ -384,10 +384,10 @@ function Hero({ openVideo }) {
       className="relative overflow-hidden pt-10 sm:pt-16 lg:pt-20"
     >
       <div className="pointer-events-none absolute right-5 top-8 h-28 w-28 opacity-80 lg:right-[10%]" />
-      <div className="container-site relative z-10 grid items-center gap-9 lg:grid-cols-[.95fr_1.05fr] lg:gap-14">
-        <div>
+      <div className="container-site relative z-10 grid items-center gap-6 lg:grid-cols-[.95fr_1.05fr] lg:gap-x-14 lg:gap-y-7">
+        <div className="min-w-0 lg:col-start-1 lg:row-start-1">
           {/* <div className="eyebrow mb-5">For Pharma Brand Teams</div> */}
-          <h1 className="text-[20px] font-black leading-[1.03] tracking-[-.065em] sm:text-[66px] lg:text-[70px] ml-[10px] mt-[-20px] mb-[10px]">
+          <h1 className="ml-[10px] mt-[-20px] mb-[10px] text-[20px] font-black leading-[1.03] tracking-[-.065em] sm:text-[66px] lg:ml-0 lg:mt-0 lg:text-[clamp(42px,4.2vw,64px)]">
             Realistic AI, Engaging Videos
             <br />
             <span className="text-[#E38228]">
@@ -398,18 +398,20 @@ function Hero({ openVideo }) {
             Turn a doctor's photo into a lifelike educational video. No shoot.
             Simple. Scalable.
           </p> */}
-          <HeroCarousel openVideo={openVideo} />
-          {/* Product logos */}
+        </div>
 
-          <div className="mt-3 flex justify-evenly gap-2">
-            <ScrollCTA />
-            <a
-              href="#products"
-              className="inline-flex bg-[#E8A414] items-center gap-2 rounded-full border border-[#CAD3E2] text-sm px-5 py-2.5 font-semibold text-white transition hover:border-gold"
-            >
-              Explore Formats
-            </a>
-          </div>
+        <div className="min-w-0 lg:col-start-2 lg:row-span-2 lg:row-start-1">
+          <HeroCarousel openVideo={openVideo} />
+        </div>
+
+        <div className="mt-1 flex justify-evenly gap-2 lg:col-start-1 lg:row-start-2 lg:justify-start lg:gap-3">
+          <ScrollCTA />
+          <a
+            href="#products"
+            className="inline-flex items-center gap-2 rounded-full border border-[#CAD3E2] bg-[#E8A414] px-5 py-2.5 text-sm font-semibold text-white transition hover:border-gold"
+          >
+            Explore Formats
+          </a>
         </div>
       </div>
       <div className="container-site mt-4 lg:mt-14">

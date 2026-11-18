@@ -528,7 +528,7 @@ function Sharing() {
   ];
   return (
     <section className="bg-pale py-3 sm:py-3 mt-[-75px]">
-      <div className="container-site grid items-stretch gap-6 lg:grid-cols-[.9fr_1.1fr]">
+      <div className="container-site grid w-full grid-cols-1 items-stretch gap-6">
         <div className="rounded-[32px] bg-navy p-8 text-white sm:p-10">
           <div className="eyebrow">Sharing</div>
           <h2 className="mt-5 text-[33px] font-black leading-tight tracking-tight sm:text-[41px]">

@@ -11,18 +11,18 @@ const escapeHtml = (value = '') =>
   })[char]);
 
 async function sendEnquiryEmail(enquiry) {
-  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, EMAIL_FROM } = process.env;
+  const { EMAIL_HOST, EMAIL_PORT, EMAIL_SECURE, EMAIL_USER, EMAIL_PASS, EMAIL_FROM } = process.env;
 
-  if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS || !EMAIL_FROM) {
-    throw new Error('Email is not configured. Set SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS and EMAIL_FROM.');
+  if (!EMAIL_HOST || !EMAIL_PORT || !EMAIL_USER || !EMAIL_PASS || !EMAIL_FROM) {
+    throw new Error('Email is not configured. Set EMAIL_HOST, EMAIL_PORT, EMAIL_USER, EMAIL_PASS and EMAIL_FROM.');
   }
 
-  const port = Number(SMTP_PORT);
+  const port = Number(EMAIL_PORT);
   const transporter = nodemailer.createTransport({
-    host: SMTP_HOST,
+    host: EMAIL_HOST,
     port,
-    secure: process.env.SMTP_SECURE === 'true' || port === 465,
-    auth: { user: SMTP_USER, pass: SMTP_PASS },
+    secure: EMAIL_SECURE === 'true' || port === 465,
+    auth: { user: EMAIL_USER, pass: EMAIL_PASS },
   });
 
   const rows = [

@@ -979,6 +979,14 @@ function Footer() {
             <a className="transition hover:text-[#E8A414]" href="#demo">
               Request Demo
             </a>
+            <a
+              className="transition hover:text-[#E8A414]"
+              href="https://digilateral.com/privacy"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Privacy Policy
+            </a>
           </nav>
 
           <div className="text-sm text-white/60">

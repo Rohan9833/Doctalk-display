@@ -35,7 +35,7 @@ function Brand({ small = false }) {
     >
       <img
         className={small ? "w-[120px]" : "w-[143px] sm:w-[164px]"}
-        src={asset + "doctalk_by_digilateral.jpg"}
+        src={asset + "doctalk_by_digilateral.png"}
         alt="DocTalk logo"
       />
     </a>

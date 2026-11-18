@@ -96,12 +96,16 @@ function HeroCarousel({ openVideo }) {
   const startX = useRef(null);
   const videoRefs = useRef([]);
 
-  // Keep the current video playing while the next video prepares off-screen.
+  // Play the visible video and the preloading incoming video.
+  // Never call play() on a video that has already ended: browsers restart it.
   useEffect(() => {
     videoRefs.current.forEach((video, videoIndex) => {
       if (!video) return;
 
-      if (!paused && (videoIndex === index || videoIndex === incomingIndex)) {
+      const isIncoming = videoIndex === incomingIndex;
+      const isCurrent = videoIndex === index;
+
+      if (!paused && (isIncoming || (isCurrent && !video.ended))) {
         video.play().catch((error) => {
           console.error("Carousel video playback failed:", error);
         });
@@ -223,8 +227,11 @@ function HeroCarousel({ openVideo }) {
                 muted
                 playsInline
                 preload="auto"
-                onEnded={() => {
+                onEnded={(event) => {
                   if (slideIndex === index && incomingIndex === null) {
+                    // Stop the ended clip immediately so the playback effect
+                    // cannot accidentally restart it during the next transition.
+                    event.currentTarget.pause();
                     go(1);
                   }
                 }}

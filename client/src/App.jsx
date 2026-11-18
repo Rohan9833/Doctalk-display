@@ -92,12 +92,13 @@ function HeroCarousel({ openVideo }) {
   const [index, setIndex] = useState(0);
   const [incomingIndex, setIncomingIndex] = useState(null);
   const [incomingReady, setIncomingReady] = useState(false);
+  const [direction, setDirection] = useState(1);
   const [paused, setPaused] = useState(false);
   const startX = useRef(null);
   const videoRefs = useRef([]);
 
-  // Play the visible video and the preloading incoming video.
-  // Never call play() on a video that has already ended: browsers restart it.
+  // Play the current video and prepare the next video off-screen.
+  // An ended video must never be played again during a transition.
   useEffect(() => {
     videoRefs.current.forEach((video, videoIndex) => {
       if (!video) return;
@@ -115,8 +116,8 @@ function HeroCarousel({ openVideo }) {
     });
   }, [index, incomingIndex, paused]);
 
-  // Do not reveal the incoming video's initial frame. Let it advance first,
-  // then crossfade it over the currently visible video.
+  // Start the next video while it is still off-screen. Slide it into view
+  // only after it has advanced beyond its initial frame.
   useEffect(() => {
     if (incomingIndex === null) return;
 
@@ -128,11 +129,13 @@ function HeroCarousel({ openVideo }) {
 
     const beginPlayback = () => {
       if (cancelled) return;
+
       if (!paused) {
         video.play().catch((error) => {
           console.error("Next carousel video playback failed:", error);
         });
       }
+
       const checkProgress = () => {
         if (cancelled) return;
         if (video.currentTime >= 0.12) {
@@ -141,6 +144,7 @@ function HeroCarousel({ openVideo }) {
         }
         frameId = requestAnimationFrame(checkProgress);
       };
+
       frameId = requestAnimationFrame(checkProgress);
     };
 
@@ -158,9 +162,13 @@ function HeroCarousel({ openVideo }) {
     };
   }, [incomingIndex, paused]);
 
-  const go = (direction) => {
+  const go = (nextDirection) => {
     if (incomingIndex !== null) return;
-    const nextIndex = (index + direction + slides.length) % slides.length;
+
+    const nextIndex =
+      (index + nextDirection + slides.length) % slides.length;
+
+    setDirection(nextDirection);
     setIncomingReady(false);
     setIncomingIndex(nextIndex);
   };
@@ -202,18 +210,31 @@ function HeroCarousel({ openVideo }) {
     >
       <div className="relative aspect-[1.52] overflow-hidden rounded-[23px]">
         {slides.map((slide, slideIndex) => {
+          const targetIndex =
+            incomingIndex !== null && incomingReady
+              ? incomingIndex
+              : index;
+
+          let offset = slideIndex - targetIndex;
+          if (offset > 1) offset -= slides.length;
+          if (offset < -1) offset += slides.length;
+
+          // Keep the incoming slide just outside the viewport until ready.
+          if (incomingIndex !== null && !incomingReady && slideIndex === incomingIndex) {
+            offset = direction;
+          }
+
           const isCurrent = slideIndex === index;
           const isIncoming = slideIndex === incomingIndex;
-          const visible = isIncoming
-            ? incomingReady
-            : isCurrent && (incomingIndex === null || !incomingReady);
 
           return (
             <div
               key={slide.src}
-              className={`absolute inset-0 transition-opacity duration-300 ease-in-out ${
-                visible ? "opacity-100" : "opacity-0"
-              }`}
+              className="absolute inset-0 transition-transform duration-700 ease-in-out"
+              style={{
+                transform: `translateX(${offset * 100}%)`,
+                zIndex: isCurrent || isIncoming ? 1 : 0,
+              }}
               onTransitionEnd={(event) =>
                 finishTransition(event, slideIndex)
               }
@@ -229,8 +250,6 @@ function HeroCarousel({ openVideo }) {
                 preload="auto"
                 onEnded={(event) => {
                   if (slideIndex === index && incomingIndex === null) {
-                    // Stop the ended clip immediately so the playback effect
-                    // cannot accidentally restart it during the next transition.
                     event.currentTarget.pause();
                     go(1);
                   }

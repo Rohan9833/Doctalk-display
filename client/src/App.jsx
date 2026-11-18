@@ -82,66 +82,104 @@ function HeroCarousel({ openVideo }) {
       title: "DocTalk Quiz example",
       product: products[1],
     },
-
     {
       src: asset + "video_01.mp4",
       title: "DocTalk example",
       product: products[0],
     },
   ];
+
   const [index, setIndex] = useState(0);
-  const [transitionEnabled, setTransitionEnabled] = useState(true);
+  const [incomingIndex, setIncomingIndex] = useState(null);
+  const [incomingReady, setIncomingReady] = useState(false);
   const [paused, setPaused] = useState(false);
   const startX = useRef(null);
   const videoRefs = useRef([]);
 
-  // useEffect(() => {
-  //   videoRefs.current.forEach((video, videoIndex) => {
-  //     if (!video) return;
-
-  //     if (videoIndex === index) {
-  //       video.currentTime = 0;
-  //       video.play().catch(() => {});
-  //     } else {
-  //       video.pause();
-  //       video.currentTime = 0;
-  //     }
-  //   });
-  // }, [index]);
+  // Keep the current video playing while the next video prepares off-screen.
   useEffect(() => {
     videoRefs.current.forEach((video, videoIndex) => {
       if (!video) return;
 
-      if (videoIndex === index) {
-        video.currentTime = 0;
-
-        const playVideo = () => {
-          video.play().catch((error) => {
-            console.error("Video playback failed:", error);
-          });
-        };
-
-        if (video.readyState >= 2) {
-          playVideo();
-        } else {
-          video.addEventListener("canplay", playVideo, { once: true });
-        }
+      if (!paused && (videoIndex === index || videoIndex === incomingIndex)) {
+        video.play().catch((error) => {
+          console.error("Carousel video playback failed:", error);
+        });
       } else {
         video.pause();
-        video.currentTime = 0;
       }
     });
-  }, [index]);
-  useEffect(() => {
-    if (paused) return;
-    const t = setInterval(() => {
-      setIndex((i) => i + 1);
-    }, 3500);
-    return () => clearInterval(t);
-  }, [paused, slides.length]);
+  }, [index, incomingIndex, paused]);
 
-  const go = (dir) =>
-    setIndex((i) => (i + dir + slides.length) % slides.length);
+  // Do not reveal the incoming video's initial frame. Let it advance first,
+  // then crossfade it over the currently visible video.
+  useEffect(() => {
+    if (incomingIndex === null) return;
+
+    const video = videoRefs.current[incomingIndex];
+    if (!video) return;
+
+    let frameId;
+    let cancelled = false;
+
+    const beginPlayback = () => {
+      if (cancelled) return;
+      if (!paused) {
+        video.play().catch((error) => {
+          console.error("Next carousel video playback failed:", error);
+        });
+      }
+      const checkProgress = () => {
+        if (cancelled) return;
+        if (video.currentTime >= 0.12) {
+          setIncomingReady(true);
+          return;
+        }
+        frameId = requestAnimationFrame(checkProgress);
+      };
+      frameId = requestAnimationFrame(checkProgress);
+    };
+
+    if (video.readyState >= 2) {
+      beginPlayback();
+    } else {
+      video.addEventListener("canplay", beginPlayback, { once: true });
+      video.load();
+    }
+
+    return () => {
+      cancelled = true;
+      if (frameId) cancelAnimationFrame(frameId);
+      video.removeEventListener("canplay", beginPlayback);
+    };
+  }, [incomingIndex, paused]);
+
+  const go = (direction) => {
+    if (incomingIndex !== null) return;
+    const nextIndex = (index + direction + slides.length) % slides.length;
+    setIncomingReady(false);
+    setIncomingIndex(nextIndex);
+  };
+
+  const finishTransition = (event, slideIndex) => {
+    if (
+      event.target !== event.currentTarget ||
+      !incomingReady ||
+      slideIndex !== incomingIndex
+    ) {
+      return;
+    }
+
+    const previousVideo = videoRefs.current[index];
+    if (previousVideo) {
+      previousVideo.pause();
+      previousVideo.currentTime = 0;
+    }
+
+    setIndex(slideIndex);
+    setIncomingIndex(null);
+    setIncomingReady(false);
+  };
 
   return (
     <div
@@ -158,116 +196,47 @@ function HeroCarousel({ openVideo }) {
         startX.current = null;
       }}
     >
-      {/* <div className="relative overflow-hidden rounded-[23px]">
-        <div
-          className="flex transition-transform duration-700 ease-in-out"
-          style={{ transform: `translateX(-${index * 100}%)` }}
-        >
-          {slides.map((s, slideIndex) => (
-            <div key={s.src} className="relative w-full shrink-0">
+      <div className="relative aspect-[1.52] overflow-hidden rounded-[23px]">
+        {slides.map((slide, slideIndex) => {
+          const isCurrent = slideIndex === index;
+          const isIncoming = slideIndex === incomingIndex;
+          const visible = isIncoming
+            ? incomingReady
+            : isCurrent && (incomingIndex === null || !incomingReady);
+
+          return (
+            <div
+              key={slide.src}
+              className={`absolute inset-0 transition-opacity duration-300 ease-in-out ${
+                visible ? "opacity-100" : "opacity-0"
+              }`}
+              onTransitionEnd={(event) =>
+                finishTransition(event, slideIndex)
+              }
+            >
               <video
                 ref={(video) => {
                   videoRefs.current[slideIndex] = video;
                 }}
-                className="aspect-[1.52] w-full object-fill"
-                src={s.src}
-                muted
-                playsInline
-                preload="metadata"
-              />
-
-              <h3 className="absolute bottom-3 left-3 rounded-md bg-black/50 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">
-                AI-Generated
-              </h3>
-            </div>
-          ))}
-        </div>
-      </div> */}
-      <div className="relative overflow-hidden rounded-[23px]">
-        <div
-          className={`flex ${
-            transitionEnabled
-              ? "transition-transform duration-700 ease-in-out"
-              : ""
-          }`}
-          style={{ transform: `translateX(-${index * 100}%)` }}
-          onTransitionEnd={() => {
-            if (index === slides.length) {
-              setTransitionEnabled(false);
-              setIndex(0);
-
-              requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                  setTransitionEnabled(true);
-                });
-              });
-            }
-          }}
-        >
-          {/* {[...slides, slides[0]].map((s, slideIndex) => (
-      <div key={slideIndex} className="w-full shrink-0">
-        <video
-          className="aspect-[1.52] w-full object-fill"
-          src={s.src}
-          muted
-          playsInline
-          preload="metadata"
-        />
-      </div>
-    ))} */}
-          {[...slides, slides[0]].map((s, slideIndex) => (
-            <div key={slideIndex} className="w-full shrink-0">
-              <video
-                ref={(video) => {
-                  videoRefs.current[slideIndex] = video;
-                }}
-                className="aspect-[1.52] w-full object-fill"
-                src={s.src}
+                className="h-full w-full object-fill"
+                src={slide.src}
                 muted
                 playsInline
                 preload="auto"
+                onEnded={() => {
+                  if (slideIndex === index && incomingIndex === null) {
+                    go(1);
+                  }
+                }}
               />
             </div>
-          ))}
-        </div>
+          );
+        })}
 
-        <h3 className="absolute bottom-3 left-3 z-10 rounded-md bg-black/50 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">
+        <h3 className="pointer-events-none absolute bottom-3 left-3 z-10 rounded-md bg-black/50 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">
           AI-Generated
         </h3>
       </div>
-      {/* <div className="mt-5 flex items-center justify-center gap-8 sm:gap-12">
-        {[
-          {
-            src: "/images/doctalk_show.jpg",
-            alt: "DocTalk Show",
-          },
-          {
-            src: "/images/doctalk_quiz.jpg",
-            alt: "DocTalk Quiz",
-          },
-          {
-            src: "/images/doctalk-logo.webp",
-            alt: "DocTalk",
-          },
-        ].map((logo, logoIndex) => (
-          <div
-            key={logo.src}
-            className={`flex h-12 w-24 items-center justify-center transition-all duration-500 sm:h-14 sm:w-28 ${
-              index % slides.length === logoIndex
-                ? "scale-110 opacity-100"
-                : "scale-90 opacity-50"
-            }`}
-          >
-            <img
-              src={logo.src}
-              alt={logo.alt}
-              className={`max-h-full max-w-full object-contain ${
-                logoIndex === 2 ? "scale-125" : ""
-              }`}
-            />
-          </div>
-        ))}
-      </div> */}
     </div>
   );
 }

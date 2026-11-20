@@ -951,46 +951,68 @@ function PreviewModal({ product, onClose }) {
     </div>
   );
 }
+function Disclaimer() {
+  return (
+    <section aria-labelledby="disclaimer-title" className="bg-[#E9EAF0] py-8 sm:py-10">
+      <div className="container-site">
+        <div className="flex items-start gap-4 rounded-[24px] bg-[#142957] px-5 py-6 text-white sm:gap-5 sm:px-7 sm:py-8 md:rounded-[28px]">
+          <ShieldCheck
+            aria-hidden="true"
+            className="mt-0.5 shrink-0 text-[#E8A414]"
+            size={30}
+          />
+          <div className="min-w-0">
+            <h2 id="disclaimer-title" className="text-sm font-extrabold tracking-[0.12em]">
+              DISCLAIMER
+            </h2>
+            <p className="mt-2 max-w-4xl text-sm leading-6 text-white/90 sm:text-base sm:leading-7">
+              The doctors, names, clinics and people shown here are AI-generated for illustration. Any figures shown are sample data. The health content in the samples is not medically verified and is not medical advice. Please consult a qualified doctor for any health concern. This website is an advertisement for digiLATERAL’s DocTalk services.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Footer() {
   const year = new Date().getFullYear();
 
   return (
     <footer className="bg-[#0B1B3D] py-8 text-white">
-      <div className="container-site">
-        <div className="flex flex-col items-center justify-between gap-6 text-center md:flex-row md:text-left">
-          <div className="text-sm font-medium text-white/75">
-            DocTalk · DocTalk Quiz · DocTalk Show
-          </div>
+      <div className="container-site flex flex-col items-center gap-6 text-center">
+        <div className="text-sm font-medium text-white/75">
+          DocTalk · DocTalk Quiz · DocTalk Show
+        </div>
 
-          <nav
-            aria-label="Footer navigation"
-            className="flex flex-wrap items-center justify-center gap-x-7 gap-y-3 text-sm font-semibold"
+        <nav
+          aria-label="Footer navigation"
+          className="flex flex-wrap items-center justify-center gap-x-7 gap-y-3 text-sm font-semibold"
+        >
+          <a className="transition hover:text-[#E8A414]" href="#products">
+            Products
+          </a>
+          <a
+            className="transition hover:text-[#E8A414]"
+            href="#how-it-works"
           >
-            <a className="transition hover:text-[#E8A414]" href="#products">
-              Products
-            </a>
-            <a
-              className="transition hover:text-[#E8A414]"
-              href="#how-it-works"
-            >
-              How it Works
-            </a>
-            <a className="transition hover:text-[#E8A414]" href="#demo">
-              Request Demo
-            </a>
-            <a
-              className="transition hover:text-[#E8A414]"
-              href="https://digilateral.com/privacy"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Privacy Policy
-            </a>
-          </nav>
+            How it Works
+          </a>
+          <a className="transition hover:text-[#E8A414]" href="#demo">
+            Request Demo
+          </a>
+          <a
+            className="transition hover:text-[#E8A414]"
+            href="https://digilateral.com/privacy"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Privacy Policy
+          </a>
+        </nav>
 
-          <div className="text-sm text-white/60">
-            © {year} DocTalk. A digiLATERAL offering.
-          </div>
+        <div className="text-sm text-white/60">
+          © {year} DocTalk. A digiLATERAL offering.
         </div>
       </div>
     </footer>
@@ -1010,6 +1032,7 @@ export default function App() {
         <Consent />
         <LeadForm />
       </main>
+      <Disclaimer />
       <Footer />
       <PreviewModal product={preview} onClose={() => setPreview(null)} />
     </>
